@@ -1,5 +1,5 @@
 import requests
-from flask import Flask, jsonify
+from flask import Flask
 from core.utils import read_config
 
 
@@ -11,12 +11,14 @@ class DemoServer:
 
     def create(self):
         # create Flask app
-        server_cfg = self.config["server"]
-        name = server_cfg["name"]
-        template_dir = server_cfg["template_dir"]
-        static_dir = server_cfg["static_dir"]
+        app_cfg = self.config["app"]
+        name = app_cfg["name"]
+        template_dir = app_cfg["template_dir"]
+        static_dir = app_cfg["static_dir"]
 
-        self.app = Flask(name, template_folder=template_dir, static_folder=static_dir)
+        self.app = Flask(name,
+                         template_folder=template_dir,
+                         static_folder=static_dir)
 
         # create classifier url
         classifier_cfg = self.config["classifier"]
@@ -32,10 +34,10 @@ class DemoServer:
         if self.app is None:
             raise Exception("ERROR: create server first")
 
-        server_cfg = self.config["server"]
-        host = server_cfg["host"]
-        port = server_cfg["port"]
-        debug = server_cfg["debug"]
+        app_cfg = self.config["app"]
+        host = app_cfg["host"]
+        port = app_cfg["port"]
+        debug = app_cfg["debug"]
 
         self.app.run(host=host, port=port, debug=debug)
 
