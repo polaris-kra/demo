@@ -1,12 +1,15 @@
 import requests
 from flask import Flask
+from flask_login import LoginManager
 from core.utils import read_config
+from core.user import DemoUser
 
 
 class DemoServer:
     def __init__(self, config_path="config.yml"):
         self.config = read_config(config_path)
         self.classifier_url = None
+        self.login_manager = None
         self.app = None
 
     def create(self):
@@ -19,6 +22,22 @@ class DemoServer:
         self.app = Flask(name,
                          template_folder=template_dir,
                          static_folder=static_dir)
+
+        # create login manager with single demo user
+        self.app.config["SECRET_KEY"] = self.__get_secret("secret")
+        login_manager = LoginManager()
+        login_manager.init_app(self.app)
+        login_manager.login_view = "login"
+
+        @login_manager.user_loader
+        def load_user(uid):
+            if uid != self.__get_secret("user-id"):
+                raise Exception("Unknown user")
+            return DemoUser(uid,
+                            self.__get_secret("user-name"),
+                            self.__get_secret("user-password"))
+
+        self.login_manager = login_manager
 
         # create classifier url
         classifier_cfg = self.config["classifier"]
@@ -49,3 +68,7 @@ class DemoServer:
         result = response.json()['result']
 
         return result
+
+    def __get_secret(self, key):
+        secret_path = self.config["app"]["secret_path"]
+        return read_config(secret_path)["demo"][key]

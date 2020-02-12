@@ -3,6 +3,7 @@ app:
   host: 127.0.0.1
   port: 1910
   debug: True
+  secret_path: '/home/sergey-msu/Work/startup/polaris/_secret/keys.yml'
   template_dir: views
   static_dir: static
 classifier:
