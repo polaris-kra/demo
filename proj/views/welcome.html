@@ -4,7 +4,7 @@
 
 <div>
   <div class="polaris-welcome-block">
-    <h2 class="polaris-welcome-text">Добро пожаловать!</h2>
+    <h2 class="polaris-welcome-text">Добро пожаловать,<br>{{ current_user.name }}!</h2>
     <br>
     <p>
       <b>Polaris™</b>
@@ -13,7 +13,7 @@
     </p>
   </div>
   <div class="text-center">
-    <button class="btn btn-primary" onclick="location.href='{{url_for('login')}}';">Войти</button>
+    <button class="btn btn-primary" onclick="location.href='{{url_for('classify')}}';">Начать</button>
   </div>
 </div>
 

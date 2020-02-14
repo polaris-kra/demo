@@ -47,7 +47,7 @@
 }
 
 .polaris-login-block{
-    margin: 30px 0 40px 0;
+    margin: 20px 0 15px 0;
 }
 
 .polaris-register-block{
@@ -60,6 +60,10 @@
 
 .polaris-register-button{
     margin-top: 20px;
+}
+
+.polaris-logout-link{
+    font-size: small;
 }
 
 .polaris-img-block{

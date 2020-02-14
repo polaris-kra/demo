@@ -22,12 +22,17 @@
   <body>
     <div class='polaris-device'>
       <div class='polaris-device-screen'>
+        <div class="text-right">
+          {% if current_user.is_authenticated %}
+          <a href="{{ url_for('logout') }}" class="polaris-logout-link">выйти</a>
+          {% endif %}
+        </div>
 
         {% block content %}
         {% endblock %}
 
       </div>
-      <div class='polaris-device-button' onclick="location.href='{{url_for('index')}}';"></div>
+      <div class='polaris-device-button' onclick="location.href='{{url_for('welcome')}}';"></div>
     </div>
   </body>
 

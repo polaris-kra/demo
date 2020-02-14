@@ -31,11 +31,7 @@ class DemoServer:
 
         @login_manager.user_loader
         def load_user(uid):
-            if uid != self.__get_secret("user-id"):
-                raise Exception("Unknown user")
-            return DemoUser(uid,
-                            self.__get_secret("user-name"),
-                            self.__get_secret("user-password"))
+            return self.get_user_by_id(uid)
 
         self.login_manager = login_manager
 
@@ -68,6 +64,22 @@ class DemoServer:
         result = response.json()['result']
 
         return result
+
+    def get_user_by_name(self, name):
+        users = self.__get_secret("users")
+        for user in users:
+            if user["name"] == name:
+                return DemoUser(user["id"], user["name"], user["password"])
+
+        return None
+
+    def get_user_by_id(self, uid):
+        users = self.__get_secret("users")
+        for user in users:
+            if str(user["id"]) == uid:
+                return DemoUser(user["id"], user["name"], user["password"])
+
+        return None
 
     def __get_secret(self, key):
         secret_path = self.config["app"]["secret_path"]
